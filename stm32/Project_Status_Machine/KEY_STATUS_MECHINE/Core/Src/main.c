@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2026 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -19,12 +19,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "OLED.h"
-#include "Key.h"
+#include "stdio.h"
+#include "tim.h"
+#include "key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,12 +53,19 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void UART_Init(void) {
+  // 串口初始化其实 CubeMX 已经做好了，这里留个空函数保持架构整洁
+  // 以后可以在这里发一句开机问候语
+  printf("\r\n=================================\r\n");
 
+  printf("   System Boot Up Successful!    \r\n");
+  printf("   UART Communication Ready.     \r\n");
+  printf("=================================\r\n");
+}
 /* USER CODE END 0 */
 
 /**
@@ -89,9 +98,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  OLED_Init();
-  OLED_ShowString(1,1,"hello world");
+	Key_Config();					//配置按键
+	HAL_TIM_Base_Start_IT(&htim2); 	//开定时器
+  UART_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,6 +112,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  Key_Debug();
   }
   /* USER CODE END 3 */
 }
@@ -145,7 +157,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim == &htim2)
+	{
+		Key_Scan(button);
+		Key_Scan(button+1);
+		Key_Scan(button+2);
+		Key_Scan(button+3);
+	}
+}
 /* USER CODE END 4 */
 
 /**
