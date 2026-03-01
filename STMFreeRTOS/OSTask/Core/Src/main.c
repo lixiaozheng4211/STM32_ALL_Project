@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -90,6 +91,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_TIM1_Init();
+  HAL_TIM_Base_Start_IT(&htim1);                  // 开启定时器
+  __HAL_TIM_ENABLE_IT(&htim1 , TIM_IT_UPDATE);    // 开启定时器中断
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

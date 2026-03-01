@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "userTask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,8 +82,11 @@ const osThreadAttr_t myTask04_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+
 void StartTask02(void *argument);
+
 void StartTask03(void *argument);
+
 void StartTask04(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -134,7 +137,6 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
-
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -144,12 +146,10 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
+void StartDefaultTask(void *argument) {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-  for(;;)
-  {
+  for (;;) {
     osDelay(1);
   }
   /* USER CODE END StartDefaultTask */
@@ -162,13 +162,11 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
-{
+void StartTask02(void *argument) {
   /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
+  for (;;) {
+    vButtonTask();
   }
   /* USER CODE END StartTask02 */
 }
@@ -180,13 +178,11 @@ void StartTask02(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask03 */
-void StartTask03(void *argument)
-{
+void StartTask03(void *argument) {
   /* USER CODE BEGIN StartTask03 */
   /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
+  for (;;) {
+    vAdcTask();
   }
   /* USER CODE END StartTask03 */
 }
@@ -198,13 +194,11 @@ void StartTask03(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask04 */
-void StartTask04(void *argument)
-{
+void StartTask04(void *argument) {
   /* USER CODE BEGIN StartTask04 */
   /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
+  for (;;) {
+    vUartTask();
   }
   /* USER CODE END StartTask04 */
 }
@@ -213,4 +207,3 @@ void StartTask04(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
-
