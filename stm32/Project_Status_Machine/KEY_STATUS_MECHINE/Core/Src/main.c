@@ -26,7 +26,8 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "tim.h"
-#include "key.h"
+#include "OLED.h"
+#include "KEY_TABLE.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,15 +59,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void UART_Init(void) {
-  // 串口初始化其实 CubeMX 已经做好了，这里留个空函数保持架构整洁
-  // 以后可以在这里发一句开机问候语
-  printf("\r\n=================================\r\n");
 
-  printf("   System Boot Up Successful!    \r\n");
-  printf("   UART Communication Ready.     \r\n");
-  printf("=================================\r\n");
-}
 
 /* USER CODE END 0 */
 
@@ -102,16 +95,16 @@ int main(void) {
   /* USER CODE BEGIN 2 */
   Key_Config(); //配置按键
   HAL_TIM_Base_Start_IT(&htim2); //开定时器
-  UART_Init();
+  OLED_Init();
   /* USER CODE END 2 */
-
+  OLED_ShowString(2,1,"OLED_IS_READY");
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
+    KEY_DEBUG();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Key_Debug();
   }
   /* USER CODE END 3 */
 }
@@ -155,8 +148,9 @@ void SystemClock_Config(void) {
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim == &htim2) {
-    Key_Scan(button);
-    Key_Scan(button + 1);
+    for(uint8_t i = 0; i < 2; i++) {
+      Key_Scan_Engine(&button[i]);
+    }
   }
 }
 

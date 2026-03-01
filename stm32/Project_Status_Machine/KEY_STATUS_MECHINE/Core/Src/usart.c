@@ -19,8 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-#include "stdio.h"
 
+#include <string.h>
+
+#include "stdio.h"
+#include "OLED.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -115,8 +118,15 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 int _write(int file, char *ptr, int len) {
-  // 把 printf 想要输出的字符数组 (ptr)，通过 HAL 库的串口发送出去
-  HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, HAL_MAX_DELAY);
+  // 假设 OLED 一行最多显示 16 个字符，多留 1 个位置给 '\0'
+  char buffer[17] = {0};
+  // 1. 安全限制：如果 printf 传来的字符超过 16 个，强行截断，防止溢出
+  int copy_len = (len > 16) ? 16 : len;
+  // 使用安全的 memcpy，只拷贝指定的长度
+  memcpy(buffer, ptr, copy_len);
+  // 手动给末尾盖上字符串结束戳
+  buffer[copy_len] = '\0';
+  OLED_ShowString(1, 1, buffer);
   return len;
 }
 /* USER CODE END 1 */

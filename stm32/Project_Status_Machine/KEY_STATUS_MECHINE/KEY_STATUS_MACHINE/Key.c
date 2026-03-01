@@ -65,13 +65,13 @@ void Key_ParaInit(buttonType *button) {
 }
 
 void Key_Scan(buttonType *button) {
-  switch (button->key) {
+  switch (button->keyAction) {
     case KEY_NULL: {
       /* if falling edge captured */
       if (HAL_GPIO_ReadPin(button->GPIO_Port, button->GPIO_Pin) == 0) {
-        button->key = KEY_DOWN;
+        button->keyAction = KEY_DOWN;
       } else if (HAL_GPIO_ReadPin(button->GPIO_Port, button->GPIO_Pin) == 1) {
-        button->key = KEY_NULL;
+        button->keyAction = KEY_NULL;
       }
 
       /* if button is released ,high_time_count++ */
@@ -111,7 +111,7 @@ void Key_Scan(buttonType *button) {
     }
 
     case KEY_DOWN: {
-      button->key = KEY_PRESS;
+      button->keyAction = KEY_PRESS;
 
       /* as long as falling edge occurring,press_flag++ */
       button->press_flag++;
@@ -125,18 +125,18 @@ void Key_Scan(buttonType *button) {
     case KEY_PRESS: {
       /* when button was kept pressed, hold count++ */
       if (HAL_GPIO_ReadPin(button->GPIO_Port, button->GPIO_Pin) == 0) {
-        button->key = KEY_PRESS;
+        button->keyAction = KEY_PRESS;
         button->hold_cnt++;
       }
       /* when button was released, change state */
       else if (HAL_GPIO_ReadPin(button->GPIO_Port, button->GPIO_Pin) == 1) {
-        button->key = KEY_UP;
+        button->keyAction = KEY_UP;
       }
       break;
     }
 
     case KEY_UP: {
-      button->key = KEY_NULL;
+      button->keyAction = KEY_NULL;
 
       button->release_flag = 1; /* means that the button is released */
 
@@ -159,26 +159,22 @@ void Key_Debug() {
     switch (button[i].buttonAction) {
       case BUTTON_SINGLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->", i);
-        printf("BUTTON_SINGLE\r\n");
+        printf("%d->BUTTON_SINGLE\r\n" , i);
         break;
       }
       case BUTTON_LONG_PRESS: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->", i);
-        printf("BUTTON_LONG_PRESS\r\n");
+        printf("%d->BUTTON_LONG_PRESS\r\n" , i);
         break;
       }
       case BUTTON_DOUBLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->", i);
-        printf("BUTTON_DOUBLE\r\n");
+        printf("%d->BUTTON_DOUBLE\r\n" , i);
         break;
       }
       case BUTTON_TRIPLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->", i);
-        printf("BUTTON_TRIPLE\r\n");
+        printf("%d->BUTTON_TRIPLE\r\n" , i);
         break;
       }
       case BUTTON_NULL: {
