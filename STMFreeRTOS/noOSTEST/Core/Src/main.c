@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -55,6 +56,14 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+const uint32_t c_uButtonCountThreshold = 20;
+const uint32_t c_uAdcCountThreshold = 1000;
+const uint32_t c_uUartCountThreshold = 500;
+
+uint32_t ulButtonCount;
+uint32_t ulAdcCount;
+uint32_t ulUartCount;
+
 
 /* USER CODE END 0 */
 
@@ -88,8 +97,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start(&htim1); // 开启定时器
+  __HAL_TIM_ENABLE_IT(&htim1 , TIM_IT_UPDATE); // 手动开启定时器中断 , CUbeMX只会帮你做最基础的配置 , 其他的要自己来
   /* USER CODE END 2 */
 
   /* Infinite loop */
