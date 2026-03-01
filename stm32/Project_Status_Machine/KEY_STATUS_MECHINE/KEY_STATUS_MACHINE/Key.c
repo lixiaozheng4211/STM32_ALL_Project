@@ -3,7 +3,50 @@
 
 buttonType button[2];
 
+/*    注意 : 这里的KEY_DOWN还有KEY_UP都是瞬间状态 , 只是为了捕捉高低电平的变化
+ *    Current_S     Target_S      Action
+ *    KEY_IDLE      KEY_DOWN      readPin == 0
+ *    KEY_DOWN      KEY_PRESSED   None
+ *    KEY_PRESSED   KEY_PRESSED   while(readPin == 0)
+ *    KEY_PRESSED   KEY_UP        readPin == 1
+ *    KEY_UP        KEY_IDLE      Done
+ *
+ * 时间轴：0ms       20ms(CLICK_MIN)    300ms(CLICK_MAX)    1000ms(LONG_PRESS)
+ *       |------------|-------------------|--------------------|--------------
+ *            抖动区        有效单击区          无效区               长按区
+ *              ↓            ↓                  ↓                   ↓
+ *         <---忽略---> <--判定为短按---> <--既不是短按也不是长按--> <--判定为长按-->
+ */
 
+
+/* 单击识别
+时间轴：0ms   50ms   250ms ======== 450ms
+动作：  [按下]=======[释放] [无操作]
+       │            │              │
+       │ 按压200ms   │ 释放后200ms  │
+       │ hold_cnt=20│ high_cnt=20  │
+       └────────────┴──────────────┘
+
+1. 按压200ms：20>5且20<30 ✓（有效按压时间）
+2. 释放200ms：20>20？✗（200ms=200ms，不满足>200ms）
+3. 释放250ms：25>20 ✓（超过判定时间）
+4. 此时满足条件：输出BUTTON_SINGLE
+*/
+
+
+/* 双击识别
+// 假设扫描周期为10ms，JUDGE_TIME=20（即200ms）
+
+第一次点击：按下→释放 → high_cnt开始计数
+    ↓
+如果用户在200ms内再次按下：high_cnt < 20
+    ↓
+这是"双击"的一部分，继续等待
+    ↓
+如果200ms后用户没有再次按下：high_cnt > 20
+    ↓
+认为"连续点击动作已结束"，可以输出结果
+*/
 
 void Key_Config() {
   button[0].GPIO_Port = KEY1_GPIO_Port;
