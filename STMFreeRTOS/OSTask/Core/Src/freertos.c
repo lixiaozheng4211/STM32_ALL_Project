@@ -166,7 +166,7 @@ void StartTask02(void *argument) {
   /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
   for (;;) {
-    vButtonTask();
+    vUartTask_A();
   }
   /* USER CODE END StartTask02 */
 }
@@ -182,7 +182,7 @@ void StartTask03(void *argument) {
   /* USER CODE BEGIN StartTask03 */
   /* Infinite loop */
   for (;;) {
-    vAdcTask();
+    vUartTask_B();
   }
   /* USER CODE END StartTask03 */
 }
@@ -198,7 +198,7 @@ void StartTask04(void *argument) {
   /* USER CODE BEGIN StartTask04 */
   /* Infinite loop */
   for (;;) {
-    vUartTask();
+    vUartTask_C();
   }
   /* USER CODE END StartTask04 */
 }

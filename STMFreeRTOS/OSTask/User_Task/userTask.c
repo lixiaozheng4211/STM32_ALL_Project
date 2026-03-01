@@ -20,5 +20,20 @@ void vAdcTask(void) {
 void vUartTask(void) {
   printf("uart Task %ld \r\n",HAL_GetTick());
   osDelay(1000);
-  vTaskDelayUntil();
+}
+
+void vUartTask_A(void) {
+  printf("A\r\n");
+  portYIELD(); // 告诉调度器可以开始切换任务
+  osDelay(1000);
+}
+
+void vUartTask_B(void) {
+  printf("B\r\n");
+  osDelay(1000);
+}
+
+void vUartTask_C(void) {
+  printf("C\r\n");
+  osDelay(1000);
 }
