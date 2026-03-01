@@ -59,14 +59,14 @@ osThreadId_t myTask02Handle;
 const osThreadAttr_t myTask02_attributes = {
   .name = "myTask02",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 /* Definitions for myTask03 */
 osThreadId_t myTask03Handle;
 const osThreadAttr_t myTask03_attributes = {
   .name = "myTask03",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal1,
 };
 /* Definitions for myTask04 */
 osThreadId_t myTask04Handle;
@@ -82,11 +82,8 @@ const osThreadAttr_t myTask04_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-
 void StartTask02(void *argument);
-
 void StartTask03(void *argument);
-
 void StartTask04(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -137,6 +134,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -146,7 +144,8 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument) {
+void StartDefaultTask(void *argument)
+{
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for (;;) {
@@ -162,7 +161,8 @@ void StartDefaultTask(void *argument) {
 * @retval None
 */
 /* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument) {
+void StartTask02(void *argument)
+{
   /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
   for (;;) {
@@ -178,7 +178,8 @@ void StartTask02(void *argument) {
 * @retval None
 */
 /* USER CODE END Header_StartTask03 */
-void StartTask03(void *argument) {
+void StartTask03(void *argument)
+{
   /* USER CODE BEGIN StartTask03 */
   /* Infinite loop */
   for (;;) {
@@ -194,7 +195,8 @@ void StartTask03(void *argument) {
 * @retval None
 */
 /* USER CODE END Header_StartTask04 */
-void StartTask04(void *argument) {
+void StartTask04(void *argument)
+{
   /* USER CODE BEGIN StartTask04 */
   /* Infinite loop */
   for (;;) {
@@ -207,3 +209,4 @@ void StartTask04(void *argument) {
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+
