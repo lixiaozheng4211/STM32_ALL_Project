@@ -88,11 +88,10 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   OLED_Init();
-  OLED_ShowCN(1,1,0,1);
-  OLED_ShowCN(1,2,1,1);
-  OLED_ShowCN(1,3,2,1);
-
-  OLED_ShowCN(1,4,3,1);
+  OLED_ShowCN(1,1,0);
+  OLED_ShowCN(1,2,1);
+  OLED_ShowCN(1,3,2);
+  OLED_ShowCN(1,4,3);
   /* USER CODE END 2 */
 
   /* Infinite loop */

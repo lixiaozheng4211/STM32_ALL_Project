@@ -229,7 +229,7 @@ void OLED_ShowBinNum(uint8_t Line, uint8_t Column, uint32_t Number, uint8_t Leng
  * @param       mode   : 显示模式，1-正常显示，0-反向显示
  * @retval      无
  */
-void OLED_ShowCN(uint8_t Line, uint8_t Column, uint8_t Num, uint8_t mode) {
+void OLED_ShowCN(uint8_t Line, uint8_t Column, uint8_t Num) {
   uint8_t i;
   uint8_t page_start = (Line - 1) * 2; // 计算起始页（汉字占2页）
   uint8_t col_start = (Column - 1) * 16; // 计算起始列（汉字占16列）
@@ -238,14 +238,14 @@ void OLED_ShowCN(uint8_t Line, uint8_t Column, uint8_t Num, uint8_t mode) {
   OLED_SetCursor(page_start, col_start);
   for (i = 0; i < 16; i++) {
     uint8_t data = OLED_F10x16[Num][i];
-    OLED_WriteData(mode ? data : ~data); // 根据mode取反
+    OLED_WriteData( data ); // 根据mode取反
   }
 
   // 显示下半部分（后16字节）
   OLED_SetCursor(page_start + 1, col_start);
   for (i = 16; i < 32; i++) {
     uint8_t data = OLED_F10x16[Num][i];
-    OLED_WriteData(mode ? data : ~data); // 根据mode取反
+    OLED_WriteData( data ); // 根据mode取反
   }
 }
 
