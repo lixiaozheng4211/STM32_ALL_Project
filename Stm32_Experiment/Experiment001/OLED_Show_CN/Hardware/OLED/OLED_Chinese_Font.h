@@ -1,8 +1,0 @@
-//
-// Created by lixiaozheng on 2026/3/13.
-//
-
-#ifndef OLED_SHOW_CN_OLED_CHINESE_FONT_H
-#define OLED_SHOW_CN_OLED_CHINESE_FONT_H
-
-#endif //OLED_SHOW_CN_OLED_CHINESE_FONT_H

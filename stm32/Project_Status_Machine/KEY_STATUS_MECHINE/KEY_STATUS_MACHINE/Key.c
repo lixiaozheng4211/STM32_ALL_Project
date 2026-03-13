@@ -54,7 +54,6 @@ void Key_Config() {
 
   button[1].GPIO_Port = KEY2_GPIO_Port;
   button[1].GPIO_Pin = KEY2_Pin;
-
 }
 
 void Key_ParaInit(buttonType *button) {
@@ -159,22 +158,22 @@ void Key_Debug() {
     switch (button[i].buttonAction) {
       case BUTTON_SINGLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->BUTTON_SINGLE\r\n" , i);
+        printf("%d->BUTTON_SINGLE\r\n", i);
         break;
       }
       case BUTTON_LONG_PRESS: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->BUTTON_LONG_PRESS\r\n" , i);
+        printf("%d->BUTTON_LONG_PRESS\r\n", i);
         break;
       }
       case BUTTON_DOUBLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->BUTTON_DOUBLE\r\n" , i);
+        printf("%d->BUTTON_DOUBLE\r\n", i);
         break;
       }
       case BUTTON_TRIPLE: {
         button[i].buttonAction = BUTTON_NULL;
-        printf("%d->BUTTON_TRIPLE\r\n" , i);
+        printf("%d->BUTTON_TRIPLE\r\n", i);
         break;
       }
       case BUTTON_NULL: {
@@ -187,3 +186,4 @@ void Key_Debug() {
     }
   }
 }
+
