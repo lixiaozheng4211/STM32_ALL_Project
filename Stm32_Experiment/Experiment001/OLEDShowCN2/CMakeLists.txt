@@ -37,7 +37,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         Hardware/OLED/OLED.h
         Hardware/USART/UART_DMA.c
         Hardware/USART/UART_DMA.h
-        Hardware/OLED/CN_Font.h)
+        Hardware/OLED/CN_Font.h
+        Hardware/OLED/OLED_Font.h
+)
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)

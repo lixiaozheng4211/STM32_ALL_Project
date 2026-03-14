@@ -20,9 +20,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_it.h"
-#include "UART_DMA.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "UART_DMA.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -232,14 +232,16 @@ void DMA1_Channel5_IRQHandler(void)
 /**
   * @brief This function handles USART1 global interrupt.
   */
-void USART1_IRQHandler(void) {
-  /* 先处理 IDLE */
-  UART_IO_IdleHandler(&huart1);
-
-  /* 再走 HAL 默认 UART 中断处理 */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+  UART_IO_IdleHandler(&huart1);   // ← 加这一行
+  /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
-}
+  /* USER CODE BEGIN USART1_IRQn 1 */
 
+  /* USER CODE END USART1_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

@@ -1,14 +1,15 @@
 #include "uart_dma.h"
-#include <string.h>
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+
 
 /*=========================
  * 可调参数
  *=========================*/
-#define UART_TX_RING_SIZE   512
-#define UART_RX_RING_SIZE   512
-#define UART_RX_DMA_SIZE    128
+#define UART_TX_RING_SIZE 512
+#define UART_RX_RING_SIZE 512
+#define UART_RX_DMA_SIZE 128
 #define UART_PRINTF_TMP_SIZE 256
 
 /*=========================
@@ -207,11 +208,11 @@ void uart_printf(const char *fmt, ...) {
     return;
   }
 
-  if (len > (int) sizeof(tmp)) {
+  if (len > (int)sizeof(tmp)) {
     len = sizeof(tmp);
   }
 
-  UART_IO_Send((const uint8_t *) tmp, (uint16_t) len);
+  UART_IO_Send((const uint8_t *)tmp, (uint16_t)len);
 }
 
 /*=========================
@@ -219,13 +220,13 @@ void uart_printf(const char *fmt, ...) {
  * 如果你启用这个，就可以直接 printf()
  *=========================*/
 int _write(int file, char *ptr, int len) {
-  (void) file;
+  (void)file;
 
   if (ptr == NULL || len <= 0) {
     return 0;
   }
 
-  UART_IO_Send((const uint8_t *) ptr, (uint16_t) len);
+  UART_IO_Send((const uint8_t *)ptr, (uint16_t)len);
   return len;
 }
 
@@ -285,25 +286,24 @@ void UART_IO_IdleHandler(UART_HandleTypeDef *huart) {
     /* 先停 DMA，冻结当前计数器 */
     HAL_UART_DMAStop(huart);
 
-    /* 计算实际收到多少字节
-     * DMA 剩余计数 = __HAL_DMA_GET_COUNTER(huart->hdmarx)
-     * 已收长度 = 总长度 - 剩余长度
-     */
-    recv_len = (uint16_t)(UART_RX_DMA_SIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx));
+    /* 计算实际收到多少字节 */
+    recv_len =
+        (uint16_t)(UART_RX_DMA_SIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx));
 
-    /* 把这次收到的数据搬到 RX 环形队列
-     * 为什么还要再拷一份到 RX 环形队列？
-     * 因为 rx_dma_buf 是“本次 DMA 临时接收区”
-     * 而 rx_ring 才是“主循环慢慢取数据的队列”
-     */
+    /* 把这次收到的数据搬到 RX 环形队列 */
     for (i = 0; i < recv_len; i++) {
       rx_ring_push(rx_dma_buf[i]);
     }
 
     /* 重新开启 DMA，准备下一帧 */
-    HAL_UART_Receive_DMA(huart, rx_dma_buf, UART_RX_DMA_SIZE);
+    if (HAL_UART_Receive_DMA(huart, rx_dma_buf, UART_RX_DMA_SIZE) != HAL_OK) {
+      /* 重启失败，尝试再次重启 */
+      HAL_UART_Receive_DMA(huart, rx_dma_buf, UART_RX_DMA_SIZE);
+    }
   }
 }
+
+
 
 /*=========================
  * 主循环里每次调一下，读取 1 字节
