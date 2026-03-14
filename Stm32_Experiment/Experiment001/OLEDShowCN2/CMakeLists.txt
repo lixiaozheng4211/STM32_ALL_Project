@@ -39,6 +39,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         Hardware/USART/UART_DMA.h
         Hardware/OLED/CN_Font.h
         Hardware/OLED/OLED_Font.h
+        Hardware/ESP8266/ESP8266.c
+        Hardware/ESP8266/ESP8266.h
 )
 
 # Add STM32CubeMX generated sources
@@ -58,6 +60,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         Hardware/OLED
         Hardware/USART
+        Hardware/ESP8266
 )
 
 # Add project symbols (macros)
